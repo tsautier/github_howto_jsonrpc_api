@@ -3406,4 +3406,117 @@ you can use the following FortiManager API request:
                "url": "/pm/config/adom/demo/obj/casb/saas-application"
              }
            ]
-         }        
+         }
+
+Seen in #1281997, another alternative which seems to give more details:
+
+.. tab-set::
+
+   .. tab-item:: REQUEST
+
+      .. code-block:: json
+
+         {
+           "id": 3,
+           "method": "get",
+           "params": [
+             {
+               "url": "/pm/config/adom/demo/_fdsdb/casb/saas-application"
+             }
+           ],
+           "session": "{{session}}",
+           "verbose": 1
+         }
+
+   .. tab-item:: RESPONSE
+
+      .. code-block:: json
+
+         {
+           "id": 3,
+           "result": [
+             {
+               "data": [
+                 {
+                   "category": "E-commerce",
+                   "deprecated": 0,
+                   "disabled": 0,
+                   "display-name": "Printful",
+                   "domain": "printful.com",
+                   "ext-domains": "[ \"printful.com\" ]",
+                   "icon-id": 0,
+                   "name": "printful",
+                   "popularity": 0,
+                   "uuid": "000da27d-ced9-4aad-8d2a-ac5a72ec2d2f"
+                 },
+                 {
+                   "category": "Collaboration/Productivity",
+                   "deprecated": 0,
+                   "disabled": 0,
+                   "display-name": "Clicktime",
+                   "domain": "clicktime.com",
+                   "ext-domains": "[ \"clicktime.com\" ]",
+                   "icon-id": 0,
+                   "name": "clicktime",
+                   "popularity": 0,
+                   "uuid": "001178b4-4e6d-4b04-a234-b0c02efd839f"
+                 },
+                 {
+                   "category": "Sales/CRM",
+                   "deprecated": 0,
+                   "disabled": 0,
+                   "display-name": "Acuity Scheduling",
+                   "domain": "acuityscheduling.com",
+                   "ext-domains": "[ \"acuityscheduling.com\" ]",
+                   "icon-id": 0,
+                   "name": "acuity-scheduling",
+                   "popularity": 0,
+                   "uuid": "002c213d-1903-4f10-bc04-e45fea3758ae"
+                 },
+                 {"...": "..."},
+                 {
+                   "category": "Analytics/Business Intelligence",
+                   "deprecated": 0,
+                   "disabled": 0,
+                   "display-name": "Piano.io",
+                   "domain": "cxense.com",
+                   "ext-domains": "[ \"cxense.com\", \"piano.io\" ]",
+                   "icon-id": 0,
+                   "name": "piano",
+                   "popularity": 0,
+                   "uuid": "ffe6db87-589a-4689-9fa1-c4a558a202f3"
+                 },
+                 {
+                   "category": "IT/DevOps",
+                   "deprecated": 0,
+                   "disabled": 0,
+                   "display-name": "Tray.io",
+                   "domain": "tray.com",
+                   "ext-domains": "[ \"tray.com\" ]",
+                   "icon-id": 0,
+                   "name": "trayio",
+                   "popularity": 0,
+                   "uuid": "ffe73113-0511-46d2-a1e9-6ea9c35c50bd"
+                 },
+                 {
+                   "category": "IT/DevOps",
+                   "deprecated": 0,
+                   "disabled": 0,
+                   "display-name": "Blazemeter",
+                   "domain": "blazemeter.com",
+                   "ext-domains": "[ \"blazemeter.com\" ]",
+                   "icon-id": 0,
+                   "name": "blazemeter",
+                   "popularity": 0,
+                   "uuid": "fff8fa91-36d0-4066-adb0-2633c8661151"
+                 }
+               ],
+               "status": {
+                 "code": 0,
+                 "message": "OK"
+               },
+               "url": "/pm/config/adom/demo/_fdsdb/casb/saas-application",
+               "version": "1.10"
+             }
+           ]
+         }         

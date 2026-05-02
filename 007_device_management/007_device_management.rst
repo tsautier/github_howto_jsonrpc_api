@@ -1289,6 +1289,84 @@ The following example shows how to get the list of managed devices for all ADOMs
 
          - The ``demo_002`` ADOM manages two devices: ``dev_003``
 
+How to get unauthorized devices?
+++++++++++++++++++++++++++++++++
+
+An unauthorized or unregistered device is a device which managed to acquire its FortiManager details which started its FGFM tunnel.
+
+However, on the FortiManager side, such device has been accepted but not yet authorized; it has been moved in the ``root`` ADOM and placed in the special *Unauthorized Devices*  device group.
+
+.. note::
+
+   - the *Unauthorized Devices* device group is only visible when there are
+     unauthorized devices
+
+The following example shows how to get the list of unregistered or unauthorized devices:
+
+.. tab-set::
+
+   .. tab-item:: REQUEST
+
+      .. code-block:: json
+
+         {
+           "id": 3,
+           "method": "get",
+           "params": [
+             {
+               "fields": [
+                 "name",
+                 "mgmt_mode"
+               ],
+               "filter": [
+                 "mgmt_mode",
+                 "==",
+                 "unreg"
+               ],
+               "loadsub": 0,
+               "url": "/dvmdb/device"
+             }
+           ],
+           "session": "{{session}}",
+           "verbose": 1
+         }        
+
+      .. note::
+
+         - As you can see, to get the unauthorized devices, you have to 
+           ``filter`` based on the ``mgmt_mode`` attribute and the ``unreg`` (i.
+           e., *unregistered*) value
+         
+   .. tab-item:: RESPONSE
+
+      .. code-block:: json
+
+        {
+          "id": 3,
+          "result": [
+            {
+              "data": [
+                {
+                  "mgmt_mode": "unreg",
+                  "name": "dev_001",
+                  "oid": 34749
+                }
+              ],
+              "status": {
+                "code": 0,
+                "message": "OK"
+              },
+              "url": "/dvmdb/device"
+            }
+          ]
+        }
+
+      .. note::
+
+         - That response shows there's a single unauthorized device named 
+           ``dev_001``
+
+
 Real Device
 -----------
 
@@ -1595,83 +1673,6 @@ serial number of the ``dev_001`` managed device:
 
    Alternatively, use the new FortiManager RMA feature for managed devices. 
    More details can be found in section :ref:`How to RMA a managed device?`.  
-
-How to get unauthorized devices?
---------------------------------
-
-An unauthorized or unregistered device is a device which managed to acquire its FortiManager details which started its FGFM tunnel.
-
-However, on the FortiManager side, such device has been accepted but not yet authorized; it has been moved in the ``root`` ADOM and placed in the special *Unauthorized Devices*  device group.
-
-.. note::
-
-   - the *Unauthorized Devices* device group is only visible when there are
-     unauthorized devices
-
-The following example shows how to get the list of unregistered or unauthorized devices:
-
-.. tab-set::
-
-   .. tab-item:: REQUEST
-
-      .. code-block:: json
-
-         {
-           "id": 3,
-           "method": "get",
-           "params": [
-             {
-               "fields": [
-                 "name",
-                 "mgmt_mode"
-               ],
-               "filter": [
-                 "mgmt_mode",
-                 "==",
-                 "unreg"
-               ],
-               "loadsub": 0,
-               "url": "/dvmdb/device"
-             }
-           ],
-           "session": "{{session}}",
-           "verbose": 1
-         }        
-
-      .. note::
-
-         - As you can see, to get the unauthorized devices, you have to 
-           ``filter`` based on the ``mgmt_mode`` attribute and the ``unreg`` (i.
-           e., *unregistered*) value
-         
-   .. tab-item:: RESPONSE
-
-      .. code-block:: json
-
-        {
-          "id": 3,
-          "result": [
-            {
-              "data": [
-                {
-                  "mgmt_mode": "unreg",
-                  "name": "dev_001",
-                  "oid": 34749
-                }
-              ],
-              "status": {
-                "code": 0,
-                "message": "OK"
-              },
-              "url": "/dvmdb/device"
-            }
-          ]
-        }
-
-      .. note::
-
-         - That response shows there's a single unauthorized device named 
-           ``dev_001``
 
 How to promote/authorize a real device?
 ---------------------------------------
@@ -3404,6 +3405,7 @@ to return devices where ``flags`` is set to ``is_model`` and ``mgmt_mode`` is
           
           - The ``filter`` attribute also checks if the ``mgmt_mode`` is set to
             ``unreg``.
+
    .. tab-item:: RESPONSE
 
       .. code-block:: json
@@ -3431,6 +3433,79 @@ to return devices where ``flags`` is set to ``is_model`` and ``mgmt_mode`` is
              }
            ]
          }    
+
+How to get the list of Model Devices which are not ready for auto-link?
+_______________________________________________________________________
+
+Captured in #0947988.
+
+The following examples shows how to get the list of Model Device with the
+``linked_to_model`` flag disabled (in the GUI, *Automatically Link to Real
+Device* is toggled off):
+
+.. tab-set::
+
+   .. tab-item:: REQUEST
+
+      .. code-block:: json
+
+         {
+           "id": 3,
+           "method": "get",
+           "params": [
+             {
+               "fields": [
+                 "name",
+                 "flags"
+               ],
+               "filter": [
+                 [
+                   "!",
+                   "flags",
+                   "&",
+                   "linked_to_model"
+                 ],
+                 "&&",
+                 [
+                   "flags",
+                   "&",
+                   "is_model"
+                 ]
+               ],
+               "loadsub": 0,
+               "url": "/dvmdb/device"
+             }
+           ],
+           "session": "{{session}}",
+           "verbose": 1
+         }
+
+   .. tab-item:: RESPONSE
+
+      .. code-block:: json
+
+         {
+           "id": 3,
+           "result": [
+             {
+               "data": [
+                 {
+                   "flags": [
+                     "has_hdd",
+                     "is_model"
+                   ],
+                   "name": "dev_001",
+                   "oid": 1621
+                 }
+               ],
+               "status": {
+                 "code": 0,
+                 "message": "OK"
+               },
+               "url": "/dvmdb/device"
+             }
+           ]
+         }
 
 How to enable VDOM on a Model Device?
 +++++++++++++++++++++++++++++++++++++
