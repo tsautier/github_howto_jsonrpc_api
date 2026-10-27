@@ -2661,19 +2661,40 @@ We change the FortiAnalyzer IP address and Serial Number set in System Template
      ]
    }
 
+How do I import a system template?
+++++++++++++++++++++++++++++++++++
 
-How to import a system template?
-++++++++++++++++++++++++++++++++
+Identified in #069924.
 
-Caught in #069924.
+The following example shows how to import the system settings of managed device
+``dev_001`` in ADOM ``demo``. The imported settings are saved in the system
+template ``system_template_001``:
 
-TBC.
+.. tab-set::
 
-URL is:
+   .. tab-item:: REQUEST
 
-.. code-block::
+      .. code-block:: json
 
-   /pm/config/adom/<adom>/_devprof/import
+         {
+           "id": 3,
+           "method": "exec",
+           "params": [
+             {
+               "url": "/pm/config/adom/demo/_devprof/import",
+               "data": {
+                 "device": "dev_001",
+                 "devprof": "system_template_001",
+                 "description": ""
+               }
+             }
+           ],
+           "session": "{{session}}"
+         }
+
+   .. tab-item:: RESPONSE
+
+      TBD
 
 FortiAP Management
 ------------------
